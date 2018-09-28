@@ -181,4 +181,3 @@ def main_func(page_no):
         # print(exc_type, fname, exc_tb.tb_lineno)
         logger.error('Error in scraping the jobsdb : {0}'.format(str(e)))
         return None
-
