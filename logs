@@ -1,0 +1,14 @@
+2018-10-02 21:57:07,309:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2018-10-02 21:57:07,310:apscheduler.scheduler:Added job "jobsdb_queue" to job store "default"
+2018-10-02 21:57:07,310:apscheduler.scheduler:Scheduler started
+2018-10-02 21:57:07,310:apscheduler.scheduler:Looking for jobs to run
+2018-10-02 21:57:07,310:apscheduler.scheduler:Next wakeup is due at 2018-10-02 22:02:07.309490+05:30 (in 299.999008 seconds)
+2018-10-02 21:57:07,340:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2018-10-02 21:57:07,341:werkzeug: * Restarting with stat
+2018-10-02 21:57:07,978:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2018-10-02 21:57:07,978:apscheduler.scheduler:Added job "jobsdb_queue" to job store "default"
+2018-10-02 21:57:07,978:apscheduler.scheduler:Scheduler started
+2018-10-02 21:57:07,979:apscheduler.scheduler:Looking for jobs to run
+2018-10-02 21:57:07,980:apscheduler.scheduler:Next wakeup is due at 2018-10-02 22:02:07.978274+05:30 (in 299.998350 seconds)
+2018-10-02 21:57:07,992:werkzeug: * Debugger is active!
+2018-10-02 21:57:07,998:werkzeug: * Debugger PIN: 295-551-122

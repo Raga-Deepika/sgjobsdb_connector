@@ -4,7 +4,16 @@ from datetime import datetime
 from dateparser import parse
 import requests
 import random
+import logging
 
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.setLevel(logging.WARNING)
+logger.setLevel(logging.ERROR)
+
+
+logging.basicConfig(filename="logs",level=logging.DEBUG, format='%(asctime)s:%(name)s:%(message)s')
 
 desktop_agents = ['Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
                  'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
@@ -48,10 +57,10 @@ def details_func(detail_url):
         details_data= {}
         try:
             req = proxied_request(detail_url)
-            logger.info('successful request to {0}'.format(detail_url))
+            logger.info('successful request to details page {0} of jobsdb connector'.format(detail_url))
         except Exception as e:
             details_data = None
-            logger.warning('request to {0} failed: {1}'.format(detail_url, str(e)))
+            logger.warning('request to  details page {0} of jobsdb connector failed: {1}'.format(detail_url, str(e)))
             return details_data
         if req.status_code==200:
             soup = BeautifulSoup(req.content,'lxml')
@@ -61,7 +70,7 @@ def details_func(detail_url):
                 details_data['job_desc'] = None
             return details_data
     except Exception as e:
-        logger.error('Error in scraping the details page of jobsdb : {0}'.format(str(e)))
+        logger.error('Error in scraping the details page of jobsdb connector : {0}'.format(str(e)))
         return None
 
 
@@ -70,10 +79,10 @@ def jobstreet(detail_url):
         jobstreet_data ={}
         try:
             req = proxied_request(detail_url)
-            logger.info('successful request to {0}'.format(detail_url))
+            logger.info('successful request to jobstreet details page of {0} jobsdb connector'.format(detail_url))
         except Exception as e:
             jobstreet_data = None
-            logger.warning('request to {0} failed: {1}'.format(detail_url, str(e)))
+            logger.warning('request to  jobstreet details page of {0} jobsdb connector failed: {1}'.format(detail_url, str(e)))
             return jobstreet_data
         if req.status_code==200:
             soup = BeautifulSoup(req.content,'lxml')
@@ -93,33 +102,37 @@ def jobstreet(detail_url):
             except IndexError:
                 jobstreet_data['firm_snapshot'] = None
             try:
-                jobstreet_data['company_overview'] = soup.find('divaa',id='company_overview_all').text.strip().replace('\xa0',"").replace('\n','').replace('\r','').replace('\t','')
+                jobstreet_data['company_overview'] = soup.find('div',id='company_overview_all').text.strip().replace('\xa0',"").replace('\n','').replace('\r','').replace('\t','')
             except AttributeError:
                 jobstreet_data['company_overview'] = None
             try:
-                date_posted = soup.find(['pa','span'],id='posting_date').text.strip().replace("Advertised: ",'')
+                jobstreet_data['why_join_us_all'] = soup.find('div',id='why_join_us_all').text.strip().replace('\r','').replace('\n','').replace('\t','')
+            except AttributeError:
+                jobstreet_data['why_join_us_all'] = None
+            try:
+                date_posted = soup.find(['p','span'],id='posting_date').text.strip().replace("Advertised: ",'')
                 jobstreet_data['posted_date'] = parse(date_posted)
             except AttributeError:
                 jobstreet_data['posted_date'] = None
         return jobstreet_data
     except Exception as e:
-        logger.error('Error in scraping the details page of jobstreet : {0}'.format(str(e)))
+        logger.error('Error in scraping the jobstreet details page of jobsdb connector : {0}'.format(str(e)))
         return None
 
 
 def main_func(page_no):
     try:
         base_url = 'https://sg.jobsdb.com'
-        source_url = 'https://sg.jobsdb.com/j?l=&p={0}&q=&surl=0&tk=YtRVt1yXuyxGftDXjFFo-hr3x3WphqlK3ctyCs45J'.format(page_no)
+        source_url = 'https://sg.jobsdb.com/j?l=&p={0}'.format(str(page_no))
         jobsdb_dict = {}
         jobsdb_dict['success'] = True
         try:
             req = proxied_request(source_url)
-            logger.info('successful request to {0}'.format(source_url))
+            logger.info('successful request to jobsdb connector {0}'.format(source_url))
         except Exception as e:
             jobsdb_dict['success'] = False
             jobsdb_dict['errorMessage'] = str(e)
-            logger.warning('request to {0} failed: {1}'.format(source_url, str(e)))
+            logger.warning('request to jobsdb connector {0} failed: {1}'.format(source_url, str(e)))
             return jobsdb_dict
         if req.status_code==200:
             data = []
@@ -176,8 +189,8 @@ def main_func(page_no):
             jobsdb_dict["updated_at"] = datetime.now()
             return jobsdb_dict
     except Exception as e:
-        # exc_type, exc_obj, exc_tb = sys.exc_info()
-        # fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        # print(exc_type, fname, exc_tb.tb_lineno)
-        logger.error('Error in scraping the jobsdb : {0}'.format(str(e)))
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        logger.error('Error in scraping page {0} of the jobsdb  connector : {1}'.format(page_no,str(e)))
         return None
