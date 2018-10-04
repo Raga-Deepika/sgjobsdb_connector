@@ -7,7 +7,7 @@ db = client.test
 col = db.jobs_dbdata
 
 redis_conn = Redis()
-q = Queue('abc',connection=redis_conn)
+q = Queue('jobsdb',connection=redis_conn)
 
 
 def jobsdb_jobs():

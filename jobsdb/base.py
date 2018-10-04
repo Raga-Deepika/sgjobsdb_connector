@@ -13,7 +13,7 @@ logger.setLevel(logging.WARNING)
 logger.setLevel(logging.ERROR)
 
 
-logging.basicConfig(filename="logs",level=logging.DEBUG, format='%(asctime)s:%(name)s:%(message)s')
+logging.basicConfig(filename="jobsdb.logs",level=logging.DEBUG, format='%(asctime)s:%(name)s:%(message)s')
 
 desktop_agents = ['Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
                  'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
@@ -50,7 +50,6 @@ def proxied_request(url, extra_headers={}, params={}):
     #     p = proxies('https')
     resp = requests.get(url, headers=headers, proxies=proxies, params=params)
     return resp
-
 
 def details_func(detail_url):
     try:
@@ -120,10 +119,11 @@ def jobstreet(detail_url):
         return None
 
 
-def main_func(page_no):
+def main_func(source_url):
     try:
+        source_url = 'https://sg.jobsdb.com/j?q=&l={0}'
+        page_no  = 1
         base_url = 'https://sg.jobsdb.com'
-        source_url = 'https://sg.jobsdb.com/j?l=&p={0}'.format(str(page_no))
         jobsdb_dict = {}
         jobsdb_dict['success'] = True
         try:
@@ -137,6 +137,20 @@ def main_func(page_no):
         if req.status_code==200:
             data = []
             soup = BeautifulSoup(req.content, 'lxml')
+            try:
+                no_of_jobs = soup.find('div',class_='column page-entries-info').find_all('span')[2].text.strip().replace(',','')
+            except:
+                no_of_jobs = None
+            if int(no_of_jobs) >= 500:
+                page_no = 50
+            else:
+                page_no = int(no_of_jobs) // int(10)
+                mod = int(no_of_jobs) % int(10)
+                if mod == 0 :
+                    page_no = page_no
+                else:
+                    page_no = page_no+int(1)
+            jobsdb_dict['page_no'] = page_no
             try:
                 cards = soup.find_all(['div','li'],class_=['result sponsored trackable sponsored_top','result'])
             except Exception as e:
