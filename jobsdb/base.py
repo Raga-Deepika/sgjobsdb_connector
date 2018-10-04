@@ -53,7 +53,6 @@ def proxied_request(url, extra_headers={}, params={}):
 
 def details_func(detail_url):
     try:
-        details_data= {}
         try:
             req = proxied_request(detail_url)
             logger.info('successful request to details page {0} of jobsdb connector'.format(detail_url))
@@ -66,7 +65,7 @@ def details_func(detail_url):
             try:
                 details_data= soup.find('div',class_='job_info').text.strip().replace('\xa0','').replace('\n','')
             except AttributeError:
-                details_data['job_desc'] = None
+                details_data = None
             return details_data
     except Exception as e:
         logger.error('Error in scraping the details page of jobsdb connector : {0}'.format(str(e)))
@@ -119,10 +118,9 @@ def jobstreet(detail_url):
         return None
 
 
-def main_func(source_url):
+def main_func(location,page_no=1):
     try:
-        source_url = 'https://sg.jobsdb.com/j?q=&l={0}'
-        page_no  = 1
+        source_url = 'https://sg.jobsdb.com/j?q=&l={0}&p={1}'.format(location,str(page_no))
         base_url = 'https://sg.jobsdb.com'
         jobsdb_dict = {}
         jobsdb_dict['success'] = True
@@ -151,6 +149,7 @@ def main_func(source_url):
                 else:
                     page_no = page_no+int(1)
             jobsdb_dict['page_no'] = page_no
+            print(jobsdb_dict['page_no'])
             try:
                 cards = soup.find_all(['div','li'],class_=['result sponsored trackable sponsored_top','result'])
             except Exception as e:
@@ -208,3 +207,5 @@ def main_func(source_url):
         print(exc_type, fname, exc_tb.tb_lineno)
         logger.error('Error in scraping page {0} of the jobsdb  connector : {1}'.format(page_no,str(e)))
         return None
+
+print(main_func(location='Mandai'))
