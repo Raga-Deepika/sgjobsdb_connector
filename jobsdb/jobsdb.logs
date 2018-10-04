@@ -1213,3 +1213,11 @@
 2018-10-04 16:12:07,762:urllib3.connectionpool:Starting new HTTPS connection (1): sg.jobsdb.com:443
 2018-10-04 16:12:10,144:urllib3.connectionpool:https://sg.jobsdb.com:443 "GET /job/rd/ac2098bfbf6aa54b4c3bc9c319252907?sp=sserp_top&sponsored=true&sr=2&tk=qjmjAbugbyDzaAZPEoDq-O9tgcN8kIQ8qgcMYcr1Y HTTP/1.1" 302 None
 2018-10-04 16:12:10,531:urllib3.connectionpool:Starting new HTTP connection (1): 35.173.16.12:8888
+2018-10-04 16:25:47,379:urllib3.connectionpool:Starting new HTTPS connection (1): sg.jobsdb.com:443
+2018-10-04 16:25:49,930:urllib3.connectionpool:https://sg.jobsdb.com:443 "GET /job/Accounts-Cum-Admin-4c5baa438b45a9ad638963823c928e60?from_url=https%3A%2F%2Fsg.jobsdb.com%2Fjobs-in-Mandai%3Fsp%3Dfacet_location&sl=Mandai&sol_srt=7899dd99-c10d-4a9f-9bf8-febcb82653d5&sp=serp&sponsored=false&sq=&sr=5&tk=iSTsMgPIu0inxWcyRqu7-wmCE_EzSYPpS7fEbGxyP HTTP/1.1" 200 None
+2018-10-04 16:26:54,668:urllib3.connectionpool:Starting new HTTPS connection (1): sg.jobsdb.com:443
+2018-10-04 16:26:57,362:urllib3.connectionpool:https://sg.jobsdb.com:443 "GET /job/Accounts-Cum-Admin-4c5baa438b45a9ad638963823c928e60?from_url=https%3A%2F%2Fsg.jobsdb.com%2Fjobs-in-Mandai%3Fsp%3Dfacet_location&sl=Mandai&sol_srt=7899dd99-c10d-4a9f-9bf8-febcb82653d5&sp=serp&sponsored=false&sq=&sr=5&tk=iSTsMgPIu0inxWcyRqu7-wmCE_EzSYPpS7fEbGxyP HTTP/1.1" 200 None
+2018-10-04 16:28:08,531:urllib3.connectionpool:Starting new HTTPS connection (1): sg.jobsdb.com:443
+2018-10-04 16:28:11,093:urllib3.connectionpool:https://sg.jobsdb.com:443 "GET /job/Admin-4696b8c036a2185dac404cbab0f192fd?from_url=https%3A%2F%2Fsg.jobsdb.com%2Fjobs-in-Mandai%3Fsp%3Dfacet_location&sl=Mandai&sol_srt=7899dd99-c10d-4a9f-9bf8-febcb82653d5&sp=serp&sponsored=false&sq=&sr=6&tk=iSTsMgPIu0inxWcyRqu7-wmCE_EzSYPpS7fEbGxyP HTTP/1.1" 200 None
+2018-10-04 16:29:44,772:urllib3.connectionpool:Starting new HTTPS connection (1): sg.jobsdb.com:443
+2018-10-04 16:29:47,456:urllib3.connectionpool:https://sg.jobsdb.com:443 "GET /job/Admin-4696b8c036a2185dac404cbab0f192fd?from_url=https%3A%2F%2Fsg.jobsdb.com%2Fjobs-in-Mandai%3Fsp%3Dfacet_location&sl=Mandai&sol_srt=7899dd99-c10d-4a9f-9bf8-febcb82653d5&sp=serp&sponsored=false&sq=&sr=6&tk=iSTsMgPIu0inxWcyRqu7-wmCE_EzSYPpS7fEbGxyP HTTP/1.1" 200 None

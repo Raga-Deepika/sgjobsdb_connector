@@ -53,6 +53,7 @@ def proxied_request(url, extra_headers={}, params={}):
 
 def details_func(detail_url):
     try:
+        details_data= {}
         try:
             req = proxied_request(detail_url)
             logger.info('successful request to details page {0} of jobsdb connector'.format(detail_url))
@@ -63,9 +64,13 @@ def details_func(detail_url):
         if req.status_code==200:
             soup = BeautifulSoup(req.content,'lxml')
             try:
-                details_data= soup.find('div',class_='job_info').text.strip().replace('\xa0','').replace('\n','')
+                details_data['job_desc']= soup.find('div',class_='job_info').text.strip().replace('\xa0','').replace('\n','').split('Jobstreet SG -')[0]
             except AttributeError:
-                details_data = None
+                details_data['job_desc'] = None
+            try:
+                details_data['type'] = soup.find('p',class_='additional_info').text.strip()
+            except AttributeError:
+                details_data['type'] = None
             return details_data
     except Exception as e:
         logger.error('Error in scraping the details page of jobsdb connector : {0}'.format(str(e)))
@@ -111,7 +116,7 @@ def jobstreet(detail_url):
                 date_posted = soup.find(['p','span'],id='posting_date').text.strip().replace("Advertised: ",'')
                 jobstreet_data['posted_date'] = parse(date_posted)
             except AttributeError:
-                jobstreet_data['posted_date'] = None
+                jobstreet_data['posted_date'] = datetime.now()
         return jobstreet_data
     except Exception as e:
         logger.error('Error in scraping the jobstreet details page of jobsdb connector : {0}'.format(str(e)))
@@ -208,4 +213,4 @@ def main_func(location,page_no=1):
         logger.error('Error in scraping page {0} of the jobsdb  connector : {1}'.format(page_no,str(e)))
         return None
 
-print(main_func(location='Mandai'))
+#print(main_func(location='Mandai'))
